@@ -1,6 +1,6 @@
 import { DEMARCHES_GRATUITES, type DemarcheGratuite } from './demarchesGratuites'
 
-function normaliserTexte(texte: string): string {
+export function normaliserTexte(texte: string): string {
   return texte
     .toLowerCase()
     .normalize('NFD')
