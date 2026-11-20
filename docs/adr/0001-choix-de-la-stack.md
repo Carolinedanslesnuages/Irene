@@ -2,16 +2,18 @@
 
 - **Statut** : Accepted
 - **Date** : 2026-11-20
-- **Décideurs** : Carolinedanslesnuages, via ADA
+- **Décideurs** : Carolinedanslesnuages
 - **Sujet** : stack technique du projet Irène
 
 ## Contexte
-L'objectif principal du projet Irène est de protéger les usagers contre les arnaques administratives en ligne, en particulier les sites privés qui font payer à prix d'or des démarches 100 % gratuites. Le besoin se situe dans le navigateur de l'utilisateur, sur des pages qu'il utilise
-déjà. Seules les stacks d'ADA sont autorisées.
+Irène protège les usagers contre les arnaques administratives en ligne : elle alerte quand un site
+est frauduleux, et quand un site privé fait payer une démarche gratuite ou moins chère sur le site
+officiel de l'État. Le besoin se situe dans le navigateur de l'utilisateur, sur les pages qu'il
+consulte déjà.
 
 ## Options considérées
 ### Option A — Extension Vue 3, Manifest V3, une seule base pour Chrome, Edge et Firefox
-- Même outillage que les autres projets (Vue 3, Vitest, lint d'accessibilité).
+- Outillage éprouvé : Vue 3, Vitest, lint d'accessibilité.
 - Permissions minimales au départ (`storage`), ajoutées une à une et justifiées.
 ### Option B — Service en ligne séparé
 - **Pourquoi pas** : l'utilisateur devrait quitter la page sur laquelle il travaille.
@@ -22,8 +24,8 @@ pas un site de l'État.
 
 ## Conséquences
 - **Positives** : au plus près du travail de l'utilisateur ; un seul code pour trois navigateurs.
-- **Négatives** : publication dans les magasins d'extensions à prévoir (ou déploiement par la DSI).
+- **Négatives** : publication dans les magasins d'extensions à prévoir.
 - **À surveiller** : chaque nouvelle permission (accès aux sites, onglets) = une ADR.
 
 ## Suivi
-- [x] Implémentation : création du projet depuis ADA
+- [x] Implémentation : création du projet
