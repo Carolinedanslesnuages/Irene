@@ -57,7 +57,7 @@ Le service doit être utilisable par tous (RGAA 4, obligatoire dans l'administra
 - **Animations** : respectent `prefers-reduced-motion`.
 
 **Référentiel complet** (DINUM, RGAA 4.1.2, 106 critères et leurs tests) :
-`docs/accessibilite/rgaa-4.1.2/README.md` pour l'index, puis le fichier du thème concerné.
+`ressources/accessibilite/rgaa-4.1.2/README.md` pour l'index, puis le fichier du thème concerné.
 
 Vérifié automatiquement : le **lint** (`eslint-plugin-vuejs-accessibility`) refuse une image sans
 alternative, un champ sans étiquette, un clic sans clavier… et chaque écran a un **test axe-core**
