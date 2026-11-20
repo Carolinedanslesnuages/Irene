@@ -3,3 +3,4 @@
 | N° | Titre | Statut | Date |
 |---|---|---|---|
 | [0001](0001-choix-de-la-stack.md) | Choix de la stack : extension Vue 3, Manifest V3 | Accepted | 2026-11-20 |
+| [0003](0003-acces-a-l-onglet-actif.md) | Accès à l'onglet actif (`activeTab`) | Proposed | 2026-11-20 |

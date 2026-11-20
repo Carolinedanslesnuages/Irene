@@ -20,7 +20,7 @@ describe('manifest.json (Manifest V3, Chrome, Edge, Firefox)', () => {
   })
 
   it('permissions minimales : chacune doit être justifiée dans docs/adr', () => {
-    expect(manifeste.permissions).toEqual(['storage'])
+    expect(manifeste.permissions).toEqual(['activeTab', 'storage'])
     expect(manifeste.host_permissions ?? []).toEqual([])
   })
 
