@@ -42,6 +42,32 @@ describe('alerte affichée sur une page à risque', () => {
     expect(document.body.children).toHaveLength(0)
   })
 
+  it('donne un lien explicite vers le site officiel, sans ouvrir de nouvelle fenêtre', () => {
+    afficherAlerte(document, RISQUE_CARTE_GRISE)
+    const lien = lireAlerte().querySelector('a')
+    expect(lien?.textContent).toBe('Aller sur le site officiel ants.gouv.fr')
+    expect(lien?.hasAttribute('target')).toBe(false)
+  })
+
+  it('se ferme au clavier : le bouton est natif et la fermeture de la fenêtre retire l’alerte', () => {
+    afficherAlerte(document, RISQUE_CARTE_GRISE)
+    const alerte = lireAlerte()
+    const fermer = alerte.querySelector('button')
+    expect(fermer?.getAttribute('type')).toBe('button')
+    expect(fermer?.hasAttribute('tabindex')).toBe(false)
+    expect(alerte.activeElement).toBe(alerte.querySelector('a'))
+    alerte.querySelector('dialog')?.dispatchEvent(new Event('close'))
+    expect(document.body.children).toHaveLength(0)
+  })
+
+  it('est annoncée comme alerte et l’information est écrite, pas seulement colorée', () => {
+    afficherAlerte(document, RISQUE_CARTE_GRISE)
+    const fenetre = lireAlerte().querySelector('dialog')
+    expect(fenetre?.getAttribute('role')).toBe('alertdialog')
+    expect(fenetre?.textContent).toContain('Ce site n’est pas le site officiel')
+    expect(fenetre?.textContent).toContain('ants.gouv.fr')
+  })
+
   it('pour un site d’arnaque connu, n’affiche pas d’adresse ni de lien', () => {
     afficherAlerte(document, { risque: true, motif: 'site-arnaque' })
     expect(lireAlerte().querySelector('a')).toBeNull()
