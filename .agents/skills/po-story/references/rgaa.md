@@ -1,7 +1,7 @@
 # Accessibilité RGAA — à chaque story
 
 **Référentiel complet** (DINUM, RGAA 4.1.2, 106 critères et leurs tests) : `rgaa-4.1.2/README.md`
-pour l'index, puis le fichier du thème concerné. Dans un projet : `docs/accessibilite/rgaa-4.1.2/`.
+pour l'index, puis le fichier du thème concerné. Dans un projet : `ressources/accessibilite/rgaa-4.1.2/`.
 
 Le RGAA 4 s'appuie sur les WCAG 2.1 niveau AA. Un outil automatique n'en couvre
 qu'environ un tiers : **il ne remplace ni un audit humain ni la déclaration

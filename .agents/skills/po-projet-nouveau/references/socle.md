@@ -15,8 +15,10 @@ secret dans le dépôt ».
 ## 1 bis. Référentiel d'accessibilité
 
 Copier le référentiel RGAA complet de la skill sœur `po-story` (`references/rgaa-4.1.2/`) dans
-`docs/accessibilite/rgaa-4.1.2/` du projet, et citer cet emplacement dans la section
-« Accessibilité » d'`AGENTS.md`.
+`ressources/accessibilite/rgaa-4.1.2/` du projet, et citer cet emplacement dans la section
+« Accessibilité » d'`AGENTS.md`. Jamais dans `docs/` : c'est un aide-mémoire
+pour l'agent, pas la documentation du projet, et les générateurs de site (Docpress, VitePress…)
+publiant tout `docs/`, il apparaîtrait comme de la documentation.
 
 ## 2. ADR-0001 — le choix de la stack
 
