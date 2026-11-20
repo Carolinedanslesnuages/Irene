@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { evaluerRisque } from '../demarches/detectionRisque'
 import { aUnPrixSurLaPage } from '../demarches/prixSurLaPage'
 import { estSiteOfficiel } from '../demarches/sitesOfficiels'
-import { estSiteArnaque, SITES_ARNAQUE } from '../demarches/sitesArnaque'
+import { estSiteArnaque, SITE_DE_TEST, SITES_ARNAQUE } from '../demarches/sitesArnaque'
 
 const PAGE_CARTE_GRISE_PAYANTE = 'Votre carte grise en 5 minutes pour seulement 29,90 €'
 
@@ -48,6 +48,10 @@ describe('liste des sites d’arnaque', () => {
   it('contient les sites de la liste noire fournie', () => {
     expect(SITES_ARNAQUE.length).toBeGreaterThan(1000)
     expect(estSiteArnaque('www.paris-majeste.com')).toBe(true)
+  })
+
+  it('reconnaît l’adresse de test, qui ne mène à aucun vrai site', () => {
+    expect(estSiteArnaque(SITE_DE_TEST)).toBe(true)
   })
 
   it('ne signale pas un site absent de la liste', () => {
