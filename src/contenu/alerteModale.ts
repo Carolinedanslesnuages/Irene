@@ -1,4 +1,5 @@
 import type { ResultatAnalyse } from '../demarches/detectionRisque'
+import { creerLogoIrene } from './logoIrene'
 
 type RisqueDetecte = Extract<ResultatAnalyse, { risque: true }>
 
@@ -8,7 +9,9 @@ const STYLE_ALERTE = `
     padding: 1.25rem; border: 1px solid #6b6b6b; border-radius: 0.5rem; background: #ffffff; color: #1e1e1e;
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; }
   dialog::backdrop { background: rgba(0, 0, 0, 0.5); }
-  h2 { margin: 0 0 0.75rem; font-size: 1.25rem; line-height: 1.3; }
+  .entete { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.75rem; }
+  .logo { flex: none; }
+  h2 { margin: 0; font-size: 1.25rem; line-height: 1.3; }
   p { margin: 0 0 0.75rem; font-size: 1rem; }
   .adresse { display: block; margin: 0 0 1.25rem; padding: 0.5rem 0.75rem; border-left: 4px solid #1d4ed8; background: #eef2ff;
     font-size: 1.5rem; font-weight: bold; overflow-wrap: anywhere; color: #1e1e1e; }
@@ -86,7 +89,11 @@ export function afficherAlerte(page: Document, risque: RisqueDetecte, ignorerCeS
     actions.append(ignorer)
   }
 
-  fenetre.append(titre, ...ecrireMessage(page, risque), actions)
+  const entete = page.createElement('div')
+  entete.className = 'entete'
+  entete.append(creerLogoIrene(page), titre)
+
+  fenetre.append(entete, ...ecrireMessage(page, risque), actions)
   racine.append(style, fenetre)
   page.body.append(hote)
 

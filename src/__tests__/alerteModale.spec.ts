@@ -30,6 +30,14 @@ describe('alerte affichée sur une page à risque', () => {
     expect(texte).toContain('frais de dossier')
   })
 
+  it('affiche le logo d’Irène à côté du titre, avec une alternative textuelle', () => {
+    afficherAlerte(document, RISQUE_CARTE_GRISE)
+    const logo = lireAlerte().querySelector('.entete svg.logo')
+    expect(logo?.getAttribute('role')).toBe('img')
+    expect(logo?.getAttribute('aria-label')).toMatch(/^Logo d’Irène/)
+    expect(lireAlerte().querySelector('.entete h2')).not.toBeNull()
+  })
+
   it('est une fenêtre nommée par son titre', () => {
     afficherAlerte(document, RISQUE_CARTE_GRISE)
     expect(lireAlerte().querySelector('dialog')?.getAttribute('aria-labelledby')).toBe('irene-titre')
