@@ -32,8 +32,33 @@ describe('Fenêtre de l’extension', () => {
     await wrapper.find('#activation').setValue(false)
     await flushPromises()
     expect(memoire).toEqual({ reglages: { active: false } })
-    expect(wrapper.find('[role="status"]').text()).toBe('Extension désactivée.')
+    expect(wrapper.find('[role="status"]').text()).toBe('Irène est coupée')
     wrapper.unmount()
+  })
+
+  it('affiche en texte si Irène est active ou coupée', async () => {
+    simulerChromeStorage()
+    const wrapper = await monter()
+    expect(wrapper.find('[role="status"]').text()).toBe('Irène est active')
+    await wrapper.find('#activation').setValue(false)
+    expect(wrapper.find('[role="status"]').text()).toBe('Irène est coupée')
+    await wrapper.find('#activation').setValue(true)
+    expect(wrapper.find('[role="status"]').text()).toBe('Irène est active')
+    wrapper.unmount()
+  })
+
+  it('garde le réglage : coupée puis fenêtre rouverte, Irène est toujours coupée', async () => {
+    const { memoire } = simulerChromeStorage()
+    const premiere = await monter()
+    await premiere.find('#activation').setValue(false)
+    await flushPromises()
+    premiere.unmount()
+    setActivePinia(createPinia())
+    simulerChromeStorage(memoire)
+    const reouverte = await monter()
+    expect(reouverte.find('[role="status"]').text()).toBe('Irène est coupée')
+    expect((reouverte.find('#activation').element as HTMLInputElement).checked).toBe(false)
+    reouverte.unmount()
   })
 
   it('prévient quand l’enregistrement échoue', async () => {
