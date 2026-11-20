@@ -26,6 +26,16 @@ describe('Fenêtre de l’extension', () => {
     wrapper.unmount()
   })
 
+  it('affiche le logo à côté du nom, avec une alternative textuelle', async () => {
+    simulerChromeStorage()
+    const wrapper = await monter()
+    const logo = wrapper.find('img.logo')
+    expect(logo.attributes('src')).toMatch(/^(\/icones\/logo\.svg|data:image\/svg\+xml)/)
+    expect(logo.attributes('alt')).toMatch(/^Logo d’Irène/)
+    expect(wrapper.find('.entete h1').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
   it('enregistre le changement et l’annonce', async () => {
     const { memoire } = simulerChromeStorage()
     const wrapper = await monter()

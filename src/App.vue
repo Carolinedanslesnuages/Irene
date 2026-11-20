@@ -27,7 +27,10 @@ async function basculer(evenement: Event): Promise<void> {
 
 <template>
   <main>
-    <h1>Irène</h1>
+    <div class="entete">
+      <img class="logo" src="/icones/logo.svg" alt="Logo d’Irène : un bouclier orné d’un œil attentif" width="40" height="40" />
+      <h1>Irène</h1>
+    </div>
     <p class="aide">Le lanceur d’alerte de vos démarches en ligne.</p>
     <p v-if="!charge" role="status">Chargement…</p>
     <template v-else>
