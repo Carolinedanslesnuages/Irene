@@ -13,4 +13,4 @@
 | Construire | `npm run build-only` (dossier `dist/`, voir README) |
 
 ## Stories réalisées
-_(aucune pour l'instant)_
+- #2 — Liste des démarches gratuites et sites officiels (liste fixe : démarche, site officiel gratuit, mots-clés)
