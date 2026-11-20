@@ -1,5 +1,6 @@
 import { trouverDemarcheDansTexte } from './reconnaissanceDemarche'
 import { aUneMentionOfficielleTrompeuse } from './mentionOfficielleTrompeuse'
+import { estMoteurDeRecherche } from './moteursDeRecherche'
 import { aUnPrixSurLaPage } from './prixSurLaPage'
 import { estSiteArnaque, SITES_ARNAQUE } from './sitesArnaque'
 import { estSiteOfficiel } from './sitesOfficiels'
@@ -29,7 +30,7 @@ function lireNomDeSite(adresse: string): string | null {
 /** Analyse le texte d'une page, sans rien envoyer : repère seulement, n'affiche rien. */
 export function evaluerRisque({ adresse, textePage, sitesArnaque = SITES_ARNAQUE }: PageAnalysee): ResultatAnalyse {
   const nomDeSite = lireNomDeSite(adresse)
-  if (nomDeSite === null || estSiteOfficiel(nomDeSite)) return AUCUN_RISQUE
+  if (nomDeSite === null || estSiteOfficiel(nomDeSite) || estMoteurDeRecherche(nomDeSite)) return AUCUN_RISQUE
   if (estSiteArnaque(nomDeSite, sitesArnaque)) return { risque: true, motif: 'site-arnaque' }
 
   const demarche = trouverDemarcheDansTexte(textePage)
