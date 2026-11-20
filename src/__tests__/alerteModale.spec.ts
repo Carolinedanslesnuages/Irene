@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { afficherAlerte } from '../contenu/alerteModale'
 import { violationsAccessibilite } from './accessibilite'
 
@@ -72,6 +72,22 @@ describe('alerte affichée sur une page à risque', () => {
     afficherAlerte(document, { risque: true, motif: 'site-arnaque' })
     expect(lireAlerte().querySelector('a')).toBeNull()
     expect(lireAlerte().querySelector('.adresse')).toBeNull()
+  })
+
+  it('propose « Ne plus m’alerter sur ce site » : un clic ignore le site et ferme l’alerte', () => {
+    const ignorerCeSite = vi.fn<() => void>()
+    afficherAlerte(document, RISQUE_CARTE_GRISE, ignorerCeSite)
+    const boutons = [...lireAlerte().querySelectorAll('button')]
+    const ignorer = boutons.find((bouton) => bouton.textContent === 'Ne plus m’alerter sur ce site')
+    expect(ignorer?.getAttribute('type')).toBe('button')
+    ignorer?.click()
+    expect(ignorerCeSite).toHaveBeenCalledTimes(1)
+    expect(document.body.children).toHaveLength(0)
+  })
+
+  it('n’a aucune violation d’accessibilité avec le bouton pour ignorer le site', async () => {
+    afficherAlerte(document, RISQUE_CARTE_GRISE, () => undefined)
+    expect(await violationsAccessibilite(lireAlerte().querySelector('dialog') as Element)).toEqual([])
   })
 
   it('n’a aucune violation d’accessibilité détectable', async () => {

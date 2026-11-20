@@ -53,7 +53,7 @@ function ecrireMessage(page: Document, risque: RisqueDetecte): HTMLElement[] {
  * Affiche une grande fenêtre d'alerte par-dessus la page, avec la bonne adresse.
  * Texte seulement (jamais de HTML venu de la page), dans un Shadow DOM : les styles de la page n'y entrent pas.
  */
-export function afficherAlerte(page: Document, risque: RisqueDetecte): void {
+export function afficherAlerte(page: Document, risque: RisqueDetecte, ignorerCeSite?: () => void): void {
   const hote = page.createElement('div')
   const racine = hote.attachShadow({ mode: 'open' })
   const style = page.createElement('style')
@@ -76,6 +76,15 @@ export function afficherAlerte(page: Document, risque: RisqueDetecte): void {
   const fermer = creerElement(page, 'button', 'Rester sur ce site')
   fermer.setAttribute('type', 'button')
   actions.append(fermer)
+  if (ignorerCeSite) {
+    const ignorer = creerElement(page, 'button', 'Ne plus m’alerter sur ce site')
+    ignorer.setAttribute('type', 'button')
+    ignorer.addEventListener('click', () => {
+      ignorerCeSite()
+      hote.remove()
+    })
+    actions.append(ignorer)
+  }
 
   fenetre.append(titre, ...ecrireMessage(page, risque), actions)
   racine.append(style, fenetre)

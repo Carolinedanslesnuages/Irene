@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import SitesIgnores from '@/components/SitesIgnores.vue'
 import { useReglagesStore } from '@/stores/reglages'
+import { useSitesIgnoresStore } from '@/stores/sitesIgnores'
 
 const magasin = useReglagesStore()
+const magasinSitesIgnores = useSitesIgnoresStore()
 const { reglages, charge } = storeToRefs(magasin)
 const message = ref('')
 const erreur = ref('')
 
-onMounted(() => magasin.charger())
+onMounted(async () => {
+  await Promise.all([magasin.charger(), magasinSitesIgnores.charger()])
+})
 
 async function basculer(evenement: Event): Promise<void> {
   const active = (evenement.target as HTMLInputElement).checked
@@ -38,5 +43,6 @@ async function basculer(evenement: Event): Promise<void> {
     </template>
     <p role="status" class="message-succes">{{ message }}</p>
     <p v-if="erreur" role="alert" class="message-erreur">{{ erreur }}</p>
+    <SitesIgnores v-if="charge" />
   </main>
 </template>

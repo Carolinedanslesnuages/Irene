@@ -6,15 +6,27 @@
  */
 import { afficherAlerte } from './alerteModale'
 import { evaluerRisque } from '../demarches/detectionRisque'
+import { ajouterSiteIgnore, CLE_SITES_IGNORES, estSiteIgnore } from '../demarches/sitesIgnores?autonome'
 
 export const CLE_DERNIER_RISQUE = 'dernierRisque'
 
+async function lireSitesIgnores(): Promise<string[]> {
+  const stockage = await chrome.storage.local.get(CLE_SITES_IGNORES)
+  return (stockage[CLE_SITES_IGNORES] as string[] | undefined) ?? []
+}
+
+async function ignorerSite(nomDeSite: string): Promise<void> {
+  await chrome.storage.local.set({ [CLE_SITES_IGNORES]: ajouterSiteIgnore(await lireSitesIgnores(), nomDeSite) })
+}
+
 export async function analyserPage(adresse: string, textePage: string): Promise<boolean> {
+  const nomDeSite = new URL(adresse).hostname
+  if (estSiteIgnore(await lireSitesIgnores(), nomDeSite)) return false
   const resultat = evaluerRisque({ adresse, textePage })
   if (!resultat.risque) return false
   // Accès direct : un script de contenu est un fichier seul, il ne peut pas charger de module partagé.
-  await chrome.storage.local.set({ [CLE_DERNIER_RISQUE]: { nomDeSite: new URL(adresse).hostname, ...resultat } })
-  afficherAlerte(document, resultat)
+  await chrome.storage.local.set({ [CLE_DERNIER_RISQUE]: { nomDeSite, ...resultat } })
+  afficherAlerte(document, resultat, () => void ignorerSite(nomDeSite))
   return true
 }
 
