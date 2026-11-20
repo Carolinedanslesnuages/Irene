@@ -8,7 +8,6 @@ import { useSitesIgnoresStore } from '@/stores/sitesIgnores'
 const magasin = useReglagesStore()
 const magasinSitesIgnores = useSitesIgnoresStore()
 const { reglages, charge } = storeToRefs(magasin)
-const message = ref('')
 const erreur = ref('')
 
 onMounted(async () => {
@@ -20,7 +19,6 @@ async function basculer(evenement: Event): Promise<void> {
   erreur.value = ''
   try {
     await magasin.changerActivation(active)
-    message.value = active ? 'Extension activée.' : 'Extension désactivée.'
   } catch {
     erreur.value = 'Le réglage n’a pas pu être enregistré. Réessayez.'
   }
@@ -36,12 +34,12 @@ async function basculer(evenement: Event): Promise<void> {
       <div class="choix">
         <input id="activation" type="checkbox" :checked="reglages.active" @change="basculer" />
         <label for="activation">
-          Activer l’extension
-          <span class="aide"> — désactivée, elle n’agit sur aucune page.</span>
+          Activer Irène
+          <span class="aide"> — coupée, elle n’affiche aucune alerte.</span>
         </label>
       </div>
+      <p role="status" class="message-succes">{{ reglages.active ? 'Irène est active' : 'Irène est coupée' }}</p>
     </template>
-    <p role="status" class="message-succes">{{ message }}</p>
     <p v-if="erreur" role="alert" class="message-erreur">{{ erreur }}</p>
     <SitesIgnores v-if="charge" />
   </main>

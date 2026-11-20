@@ -59,6 +59,20 @@ describe('script de contenu : analyse silencieuse', () => {
     document.body.innerHTML = ''
   })
 
+  it('Irène coupée : aucune alerte et rien de gardé, même sur une page à risque', async () => {
+    const { memoire } = simulerChromeStorage({ reglages: { active: false } })
+    document.body.innerHTML = ''
+    expect(await analyserPage('https://cartegrise-express.fr/', 'Carte grise à 29,90 €')).toBe(false)
+    expect(document.body.children).toHaveLength(0)
+    expect(memoire[CLE_DERNIER_RISQUE]).toBeUndefined()
+  })
+
+  it('Irène réactivée : l’alerte revient', async () => {
+    simulerChromeStorage({ reglages: { active: true } })
+    expect(await analyserPage('https://cartegrise-express.fr/', 'Carte grise à 29,90 €')).toBe(true)
+    document.body.innerHTML = ''
+  })
+
   it('n’envoie rien sur le réseau pendant l’analyse', async () => {
     simulerChromeStorage()
     const envoiReseau = vi.fn<() => void>()

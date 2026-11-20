@@ -10,6 +10,13 @@ import { ajouterSiteIgnore, CLE_SITES_IGNORES, estSiteIgnore } from '../demarche
 
 export const CLE_DERNIER_RISQUE = 'dernierRisque'
 
+/** Irène est active par défaut : seul un réglage explicitement coupé arrête l'analyse. */
+async function ireneEstActive(): Promise<boolean> {
+  const stockage = await chrome.storage.local.get('reglages')
+  const reglages = stockage.reglages as { active?: boolean } | undefined
+  return reglages?.active !== false
+}
+
 async function lireSitesIgnores(): Promise<string[]> {
   const stockage = await chrome.storage.local.get(CLE_SITES_IGNORES)
   return (stockage[CLE_SITES_IGNORES] as string[] | undefined) ?? []
@@ -20,6 +27,7 @@ async function ignorerSite(nomDeSite: string): Promise<void> {
 }
 
 export async function analyserPage(adresse: string, textePage: string): Promise<boolean> {
+  if (!(await ireneEstActive())) return false
   const nomDeSite = new URL(adresse).hostname
   if (estSiteIgnore(await lireSitesIgnores(), nomDeSite)) return false
   const resultat = evaluerRisque({ adresse, textePage })
