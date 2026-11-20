@@ -54,6 +54,13 @@ describe('liste des sites d’arnaque', () => {
     expect(estSiteArnaque(SITE_DE_TEST)).toBe(true)
   })
 
+  it('signale un site de la liste aussi en « http » sans « s »', () => {
+    expect(evaluerRisque({ adresse: 'http://paris-majeste.com/', textePage: 'Bienvenue' })).toEqual({
+      risque: true,
+      motif: 'site-arnaque',
+    })
+  })
+
   it('ne signale pas un site absent de la liste', () => {
     expect(estSiteArnaque('exemple.com')).toBe(false)
   })
