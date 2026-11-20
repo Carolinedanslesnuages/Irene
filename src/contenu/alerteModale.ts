@@ -4,22 +4,22 @@ type RisqueDetecte = Extract<ResultatAnalyse, { risque: true }>
 
 const STYLE_ALERTE = `
   :host { all: initial; }
-  dialog { box-sizing: border-box; width: min(40rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); overflow: auto;
-    padding: 1.5rem; border: 4px solid #b91c1c; border-radius: 0.5rem; background: #ffffff; color: #1e1e1e;
+  dialog { box-sizing: border-box; width: min(32rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); overflow: auto;
+    padding: 1.25rem; border: 1px solid #6b6b6b; border-radius: 0.5rem; background: #ffffff; color: #1e1e1e;
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; }
-  dialog::backdrop { background: rgba(0, 0, 0, 0.7); }
-  h2 { margin: 0 0 1rem; font-size: 1.75rem; line-height: 1.25; color: #b91c1c; }
-  p { margin: 0 0 1rem; font-size: 1.25rem; }
-  .adresse { display: block; margin: 0 0 1.5rem; font-size: 2rem; font-weight: bold; overflow-wrap: anywhere; color: #1d4ed8; }
+  dialog::backdrop { background: rgba(0, 0, 0, 0.5); }
+  h2 { margin: 0 0 0.75rem; font-size: 1.25rem; line-height: 1.3; }
+  p { margin: 0 0 0.75rem; font-size: 1rem; }
+  .adresse { display: block; margin: 0 0 1.25rem; padding: 0.5rem 0.75rem; border-left: 4px solid #1d4ed8; background: #eef2ff;
+    font-size: 1.5rem; font-weight: bold; overflow-wrap: anywhere; color: #1e1e1e; }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-  a, button { font: inherit; font-size: 1.125rem; padding: 0.75rem 1.25rem; border: 2px solid #1d4ed8; border-radius: 0.25rem; cursor: pointer; }
-  a { background: #1d4ed8; color: #ffffff; text-decoration: none; font-weight: bold; }
+  a, button { font: inherit; padding: 0.5rem 1rem; border: 2px solid #1d4ed8; border-radius: 0.25rem; cursor: pointer; }
+  a { background: #1d4ed8; color: #ffffff; text-decoration: none; }
   button { background: #ffffff; color: #1d4ed8; }
   :focus-visible { outline: 3px solid #1e1e1e; outline-offset: 3px; }
   @media (prefers-color-scheme: dark) {
-    dialog { background: #1b1b1b; color: #f2f2f2; border-color: #fca5a5; }
-    h2 { color: #fca5a5; }
-    .adresse { color: #93b4ff; }
+    dialog { background: #1b1b1b; color: #f2f2f2; border-color: #a0a0a0; }
+    .adresse { background: #26304d; border-left-color: #93b4ff; color: #f2f2f2; }
     a { background: #93b4ff; border-color: #93b4ff; color: #0b1a3d; }
     button { background: #1b1b1b; color: #93b4ff; border-color: #93b4ff; }
     :focus-visible { outline-color: #f2f2f2; }
@@ -43,8 +43,8 @@ function ecrireMessage(page: Document, risque: RisqueDetecte): HTMLElement[] {
     return [creerElement(page, 'p', 'Ce site figure dans la liste des sites d’arnaque connus. Ne donnez aucune information.')]
   }
   return [
-    creerElement(page, 'p', `La démarche « ${risque.demarche} » est gratuite. Ce site est privé, même s’il se dit « agréé » ou « habilité ».`),
-    creerElement(page, 'p', 'Le seul site officiel et gratuit est :'),
+    creerElement(page, 'p', `Ce site est privé, même s’il se dit « agréé » ou « habilité ». Il peut ajouter des frais de dossier à la démarche « ${risque.demarche} ».`),
+    creerElement(page, 'p', 'Le site officiel de cette démarche est :'),
     creerElement(page, 'strong', risque.siteOfficiel, 'adresse'),
   ]
 }
@@ -62,7 +62,7 @@ export function afficherAlerte(page: Document, risque: RisqueDetecte): void {
   const fenetre = page.createElement('dialog')
   fenetre.setAttribute('aria-labelledby', 'irene-titre')
   fenetre.setAttribute('role', 'alertdialog')
-  const titre = creerElement(page, 'h2', 'Attention : ce site n’est pas le site officiel')
+  const titre = creerElement(page, 'h2', 'Ce site n’est pas le site officiel')
   titre.id = 'irene-titre'
 
   const actions = page.createElement('div')

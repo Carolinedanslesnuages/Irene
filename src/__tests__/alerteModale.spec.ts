@@ -23,6 +23,13 @@ describe('alerte affichée sur une page à risque', () => {
     expect(alerte.querySelector('h2')?.textContent).toContain('pas le site officiel')
   })
 
+  it('ne dit jamais « gratuit » et prévient des frais de dossier possibles', () => {
+    afficherAlerte(document, RISQUE_CARTE_GRISE)
+    const texte = lireAlerte().querySelector('dialog')?.textContent ?? ''
+    expect(texte.toLowerCase()).not.toContain('gratuit')
+    expect(texte).toContain('frais de dossier')
+  })
+
   it('est une fenêtre nommée par son titre', () => {
     afficherAlerte(document, RISQUE_CARTE_GRISE)
     expect(lireAlerte().querySelector('dialog')?.getAttribute('aria-labelledby')).toBe('irene-titre')
