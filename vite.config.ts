@@ -18,9 +18,11 @@ export default defineConfig({
       input: {
         fenetre: fileURLToPath(new URL('./index.html', import.meta.url)),
         background: fileURLToPath(new URL('./src/background.ts', import.meta.url)),
+        analysePage: fileURLToPath(new URL('./src/contenu/analysePage.ts', import.meta.url)),
       },
       output: {
-        entryFileNames: (morceau) => (morceau.name === 'background' ? 'background.js' : 'assets/[name]-[hash].js'),
+        entryFileNames: (morceau) =>
+          morceau.name === 'background' || morceau.name === 'analysePage' ? `${morceau.name}.js` : 'assets/[name]-[hash].js',
       },
     },
   },

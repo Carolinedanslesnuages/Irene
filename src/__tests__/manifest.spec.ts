@@ -24,8 +24,16 @@ describe('manifest.json (Manifest V3, Chrome, Edge, Firefox)', () => {
     expect(manifeste.host_permissions ?? []).toEqual([])
   })
 
+  it('script de contenu : lit les pages web seulement, sans permission d’accès aux sites (ADR 0002)', () => {
+    expect(manifeste.content_scripts).toEqual([
+      { matches: ['http://*/*', 'https://*/*'], js: ['analysePage.js'], run_at: 'document_idle' },
+    ])
+  })
+
   it('aucun code distant ni politique de sécurité affaiblie', () => {
-    const texte = JSON.stringify(manifeste)
+    // Les motifs « matches » du script de contenu désignent les pages lues, pas du code distant.
+    const { content_scripts: _pagesLues, ...manifesteSansMotifs } = manifeste
+    const texte = JSON.stringify(manifesteSansMotifs)
     expect(texte).not.toMatch(/unsafe-eval|unsafe-inline|https?:\/\//)
   })
 
