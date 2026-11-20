@@ -45,8 +45,12 @@ describe('prix sur la page', () => {
 })
 
 describe('liste des sites d’arnaque', () => {
-  it('est livrée vide : aucune adresse inventée', () => {
-    expect(SITES_ARNAQUE).toEqual([])
+  it('contient les sites de la liste noire fournie', () => {
+    expect(SITES_ARNAQUE.length).toBeGreaterThan(1000)
+    expect(estSiteArnaque('www.paris-majeste.com')).toBe(true)
+  })
+
+  it('ne signale pas un site absent de la liste', () => {
     expect(estSiteArnaque('exemple.com')).toBe(false)
   })
 

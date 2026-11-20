@@ -1,8 +1,11 @@
+import listeNoireCsv from '../../listenoires.csv?raw'
+import { extraireSitesDeLaListeNoire } from './extraireSitesDeLaListeNoire'
+
 /**
- * Sites d'arnaque connus (noms de site, sans « https:// »). Livrée vide : aucune adresse
- * n'est inventée, le Product Owner la fournit. Accuser à tort un site réel serait grave.
+ * Sites d'arnaque connus (noms de site, sans « https:// »), tirés de la liste noire officielle
+ * fournie par le Product Owner (listenoires.csv, à la racine du projet).
  */
-export const SITES_ARNAQUE: readonly string[] = []
+export const SITES_ARNAQUE: readonly string[] = extraireSitesDeLaListeNoire(listeNoireCsv)
 
 export function estSiteArnaque(nomDeSite: string, sitesArnaque: readonly string[] = SITES_ARNAQUE): boolean {
   const nomEnMinuscules = nomDeSite.toLowerCase()
