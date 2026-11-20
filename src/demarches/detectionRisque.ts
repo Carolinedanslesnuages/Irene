@@ -1,4 +1,5 @@
 import { trouverDemarcheDansTexte } from './reconnaissanceDemarche'
+import { aUneMentionOfficielleTrompeuse } from './mentionOfficielleTrompeuse'
 import { aUnPrixSurLaPage } from './prixSurLaPage'
 import { estSiteArnaque, SITES_ARNAQUE } from './sitesArnaque'
 import { estSiteOfficiel } from './sitesOfficiels'
@@ -32,7 +33,7 @@ export function evaluerRisque({ adresse, textePage, sitesArnaque = SITES_ARNAQUE
   if (estSiteArnaque(nomDeSite, sitesArnaque)) return { risque: true, motif: 'site-arnaque' }
 
   const demarche = trouverDemarcheDansTexte(textePage)
-  if (demarche && aUnPrixSurLaPage(textePage)) {
+  if (demarche && (aUnPrixSurLaPage(textePage) || aUneMentionOfficielleTrompeuse(textePage))) {
     return { risque: true, motif: 'demarche-payante', demarche: demarche.nom, siteOfficiel: demarche.siteOfficiel }
   }
   return AUCUN_RISQUE
