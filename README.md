@@ -6,6 +6,10 @@ Irène protège les usagers contre les arnaques administratives en ligne. Elle a
 - quand vous n'êtes **pas sur le site officiel** de votre démarche, souvent gratuite ou moins chère
   sur le site de l'État.
 
+Le nom rend hommage à Irène Frachon, pneumologue au CHU de Brest et lanceuse d'alerte : elle a
+mis au jour les dangers du Mediator, retiré du marché en 2009, et s'est battue pour que les
+victimes soient reconnues. Irène, l'extension, est la lanceuse d'alerte de vos démarches en ligne.
+
 Extension de navigateur (Vue 3, Manifest V3 : Chrome, Edge, Firefox), sans identité de l'État.
 
 ## Ce qu'elle fait
